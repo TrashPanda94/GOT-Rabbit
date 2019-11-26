@@ -1,3 +1,10 @@
+%-------------------------GoT Check-------------------------
+% Accurate as of end of season 7 (excluding events in the books)
+
+% Includes all major houses in game of thrones, their family trees, gender and status.
+% For full list of applications, see accompanying README for example queries.
+
+%____________________________________________________________
 % DATABASE OF ALL MAJOR HOUSES
 
 % House Stark
@@ -119,6 +126,89 @@ parent(robert_baratheon, gendry).
 parent(stannis_baratheon, shireen_baratheon).
 parent(selyse_baratheon, shireen_baratheon).
 
+
+%____________________________________________________________
+% ADD GENDER TO DATABASE
+
+male(aegon_targaryen).
+male(aegon_V_targaryen).
+male(aeron_greyjoy).
+male(aerys_targaryen).
+male(balon_greyjoy).
+male(benjen_stark).
+male(bran_stark).
+male(brandon_stark).
+male(daeron_targaryen).
+male(doran_martell).
+male(duncan_targaryen).
+male(eddard_stark).
+male(euron_greyjoy).
+male(gendry).
+male(jaime_lannister).
+male(joffery_lannister).
+male(jon_snow).
+male(kevan_lannister).
+male(lancel_lannister).
+male(lewyn_martell).
+male(loras_tyrell).
+male(luthor_tyrell).
+male(mace_tyrell).
+male(maron_greyjoy).
+male(martyn_lannister).
+male(oberyn_martell).
+male(renly_baratheon).
+male(rhaegar_targaryen).
+male(rickard_stark).
+male(rickon_stark).
+male(robb_stark).
+male(robert_baratheon).
+male(rodrick_greyjoy).
+male(stannis_baratheon).
+male(steffon_baratheon).
+male(theon_greyjoy).
+male(tommen_lannister).
+male(trystane_martell).
+male(tyene_sand).
+male(tyrion_lannister).
+male(tytos_lannister).
+male(tywin_lannister).
+male(unknown_father_greyjoy).
+male(viserys_targaryen).
+male(willem_lannister).
+female(alannys_harlaw).
+female(arya_stark).
+female(cassana_estermont).
+female(catelyn_stark).
+female(cersei_lannister).
+female(daenerys_targaryen).
+female(ella_martell).
+female(ellaria_sand).
+female(joanna_lannister).
+female(lyanna_stark).
+female(margaery_tyrell).
+female(mellario_of_norvos).
+female(myrcella_lannister).
+female(nymeria_sand).
+female(obara_sand).
+female(olenna_tyrell).
+female(rhaella_targaryen).
+female(rhaenys_targaryen).
+female(sansa_stark).
+female(sarella_sand).
+female(selyse_baratheon).
+female(shireen_baratheon).
+female(unknown_mother1_sand).
+female(unknown_mother2_sand).
+female(unknown_mother3_sand).
+female(unknown_mother_greyjoy).
+female(unknown_mother_lannister).
+female(unknown_mother_martell).
+female(unknown_mother_stark).
+female(unknown_mother_targaryen).
+female(yara_greyjoy).
+female(alerie_hightower).
+
+
 %____________________________________________________________
 % ALIVE OR DEAD (OR UNKNOWN)
 
@@ -197,5 +287,6 @@ status(thoros_of_myr, dead).
 status(alerie_hightower, dead).
 
 
+child(X, Y) :- parent(Y, X).
 
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
