@@ -286,7 +286,7 @@ status(beric_dondarrion, alive).
 status(thoros_of_myr, dead).
 status(alerie_hightower, dead).
 
-
+% Rules
 child(X, Y) :- parent(Y, X).
 
 
