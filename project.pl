@@ -288,5 +288,26 @@ status(alerie_hightower, dead).
 
 % Rules
 child(X, Y) :- parent(Y, X).
+mother(X, Y):- parent(X, Y), female(X).
+father(X, Y):- parent(X, Y), male(X).
 
+sibling(X, Y) :- parent(Z, X), parent(Z, X), dif(X, Y).
+% however, this approach wil produce duplicate results
+% for silbings with the same parents.
+
+% to prevent this, use list
+
+
+list_member(X , L) :- L = [X | _].
+list_member(X , L) :- L = [Y | T], dif(X, Y), list_member(X, T).
+
+list_length([], 0).
+list_length([_ | T], N) :- list_length(T, M), N is M+1.
+
+list_concat([], List_second, Result) :- Result = List_second.
+list_concat(List_first, [], Result) :- Result = List_first.
+list_concat([H1| T1], List2, [H1 | Tr]) :- list_concat(T1, List2, Tr). 
+
+list_concat1([], L2, L2).
+list_concat1([H | T1], L2, [H | T3]) :- list_concat1(T1, L2, T3).
 
