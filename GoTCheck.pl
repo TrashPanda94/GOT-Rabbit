@@ -209,94 +209,8 @@ female(yara_greyjoy).
 female(alerie_hightower).
 
 
-%____________________________________________________________
-% ALIVE OR DEAD (OR UNKNOWN)
-
-status(arya_stark, alive).
-status(bran_stark, alive).
-status(cersei_lannister, alive).
-status(daenerys_targaryen, alive).
-status(ellaria_sand, alive).
-status(gendry, alive).
-status(jaime_lannister, alive).
-status(jon_snow, alive).
-status(sansa_stark, alive).
-status(theon_greyjoy, alive).
-status(tyrion_lannister, alive).
-status(yara_greyjoy, alive).
-status(aegon_targaryen, dead).
-status(aegon_V_targaryen, dead).
-status(aerys_targaryen, dead).
-status(balon_greyjoy, dead).
-status(benjen_stark, dead).
-status(brandon_stark, dead).
-status(cassana_estermont, dead).
-status(catelyn_stark, dead).
-status(daeron_targaryen, dead).
-status(doran_martell, dead).
-status(duncan_targaryen, dead).
-status(eddard_stark, dead).
-status(ella_martell, dead).
-status(joffery_lannister, dead).
-status(kevan_lannister, dead).
-status(lancel_lannister, dead).
-status(loras_tyrell, dead).
-status(luthor_tyrell, dead).
-status(lyanna_stark, dead).
-status(mace_tyrell, dead).
-status(margaery_tyrell, dead).
-status(maron_greyjoy, dead).
-status(martyn_lannister, dead).
-status(myrcella_lannister, dead).
-status(nymeria_sand, dead).
-status(obara_sand, dead).
-status(oberyn_martell, dead).
-status(olenna_tyrell, dead).
-status(renly_baratheon, dead).
-status(rhaegar_targaryen, dead).
-status(rhaella_targaryen, dead).
-status(rhaenys_targaryen, dead).
-status(rickard_stark, dead).
-status(rickon_stark, dead).
-status(robb_stark, dead).
-status(robert_baratheon, dead).
-status(rodrick_greyjoy, dead).
-status(selyse_baratheon, dead).
-status(shireen_baratheon, dead).
-status(stannis_baratheon, dead).
-status(steffon_baratheon, dead).
-status(tommen_lannister, dead).
-status(trystane_martell, dead).
-status(tyene_sand, dead).
-status(tytos_lannister, dead).
-status(tywin_lannister, dead).
-status(viserys_targaryen, dead).
-status(willem_lannister, dead).
-status(joanna_lannister, dead).
-status(lewyn_martell, dead).
-status(the_hound, alive).
-status(meryn_trant, dead).
-status(ilyn_payne, alive).
-status(polliver, dead).
-status(the_mountain, alive).
-status(rorge, dead).
-status(walder_frey, dead).
-status(melisandre, alive).
-status(beric_dondarrion, alive).
-status(thoros_of_myr, dead).
-status(alerie_hightower, dead).
 
 
-
-
-% For those unclear if dead or alive...
-status(X, unknown) :-
-	not(status(X, alive)),						% Example of 'not' query
-	not(status(X, dead)),
-	!.											% Example of a cut '!' to stop backtracking
-
-
-%____________________________________________________________
 % DEFINE CHILD RELATIONSHIP - just using parent + gender facts
 
 child(X, Y) :-
@@ -495,8 +409,11 @@ descendants(X, Descendant_of) :-
 % add user input
 % some sort of natural language processing
 
-
-
+% incest : sexual relationship with a sibling (including half-sibling)
+% child/parent or grandchild/grandparent
+% requiring knowledge of the existence of the blood relationship. 
+% It is punishable by law only if the relationship began while one was under the age of consent. 
+% person who commits incest with someone under the age of 16 is liable to a minimum imprisonment of five years.
 
 
 
