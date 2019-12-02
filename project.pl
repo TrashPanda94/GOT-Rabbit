@@ -209,105 +209,71 @@ female(yara_greyjoy).
 female(alerie_hightower).
 
 
-%____________________________________________________________
-% ALIVE OR DEAD (OR UNKNOWN)
+%  setof(+Template, +Goal, -Set) binds Set to the list of all instances of 
+%  Template satisfying the goal Goal.
 
-status(arya_stark, alive).
-status(bran_stark, alive).
-status(cersei_lannister, alive).
-status(daenerys_targaryen, alive).
-status(ellaria_sand, alive).
-status(gendry, alive).
-status(jaime_lannister, alive).
-status(jon_snow, alive).
-status(sansa_stark, alive).
-status(theon_greyjoy, alive).
-status(tyrion_lannister, alive).
-status(yara_greyjoy, alive).
-status(aegon_targaryen, dead).
-status(aegon_V_targaryen, dead).
-status(aerys_targaryen, dead).
-status(balon_greyjoy, dead).
-status(benjen_stark, dead).
-status(brandon_stark, dead).
-status(cassana_estermont, dead).
-status(catelyn_stark, dead).
-status(daeron_targaryen, dead).
-status(doran_martell, dead).
-status(duncan_targaryen, dead).
-status(eddard_stark, dead).
-status(ella_martell, dead).
-status(joffery_lannister, dead).
-status(kevan_lannister, dead).
-status(lancel_lannister, dead).
-status(loras_tyrell, dead).
-status(luthor_tyrell, dead).
-status(lyanna_stark, dead).
-status(mace_tyrell, dead).
-status(margaery_tyrell, dead).
-status(maron_greyjoy, dead).
-status(martyn_lannister, dead).
-status(myrcella_lannister, dead).
-status(nymeria_sand, dead).
-status(obara_sand, dead).
-status(oberyn_martell, dead).
-status(olenna_tyrell, dead).
-status(renly_baratheon, dead).
-status(rhaegar_targaryen, dead).
-status(rhaella_targaryen, dead).
-status(rhaenys_targaryen, dead).
-status(rickard_stark, dead).
-status(rickon_stark, dead).
-status(robb_stark, dead).
-status(robert_baratheon, dead).
-status(rodrick_greyjoy, dead).
-status(selyse_baratheon, dead).
-status(shireen_baratheon, dead).
-status(stannis_baratheon, dead).
-status(steffon_baratheon, dead).
-status(tommen_lannister, dead).
-status(trystane_martell, dead).
-status(tyene_sand, dead).
-status(tytos_lannister, dead).
-status(tywin_lannister, dead).
-status(viserys_targaryen, dead).
-status(willem_lannister, dead).
-status(joanna_lannister, dead).
-status(lewyn_martell, dead).
-status(the_hound, alive).
-status(meryn_trant, dead).
-status(ilyn_payne, alive).
-status(polliver, dead).
-status(the_mountain, alive).
-status(rorge, dead).
-status(walder_frey, dead).
-status(melisandre, alive).
-status(beric_dondarrion, alive).
-status(thoros_of_myr, dead).
-status(alerie_hightower, dead).
-
-% Rules
-child(X, Y) :- parent(Y, X).
-mother(X, Y):- parent(X, Y), female(X).
-father(X, Y):- parent(X, Y), male(X).
-
-sibling(X, Y) :- parent(Z, X), parent(Z, X), dif(X, Y).
-% however, this approach wil produce duplicate results
-% for silbings with the same parents.
-
-% to prevent this, use list
+check_both :-
+	write("Enter the name of the first character: "),nl,
+	read(First_name),nl,
+	write("Enter the name of the second character: "),nl,
+	read(Second_name), nl,
+	write("Forbiden Rabbits? ").
+	forbiden_rabbits(First_name, Second_name).
 
 
-list_member(X , L) :- L = [X | _].
-list_member(X , L) :- L = [Y | T], dif(X, Y), list_member(X, T).
 
-list_length([], 0).
-list_length([_ | T], N) :- list_length(T, M), N is M+1.
+% His brother or sister of the whole or half-blood or by adoption
+% His ancestor or descendant by blood or adoption
+% His stepchild or stepparent, while the marriage creating the relationship exists
+% His aunt (sister of a parent)
+% uncle, nephew or niece of the whole or half-blood.
+% added cut function to increase performance
 
-list_concat([], List_second, Result) :- Result = List_second.
-list_concat(List_first, [], Result) :- Result = List_first.
-list_concat([H1| T1], List2, [H1 | Tr]) :- list_concat(T1, List2, Tr). 
+forbiden_rabbits(Bugs, Lola) :-
+	create_sibling_list(Bugs, Sibling_list), member(Lola, Sibling_list), !;
+	create_ancestor_list(Bugs, Ancestor_list), member(Lola, Ancestor_list), !;
+	create_ancestor_list(Lola, Ancestor_list), member(Bugs, Ancestor_list), !;
+	aunt(Bugs, Lola), !; aunt(Lola, Bugs), !;
+	uncle(Bugs, Lola), !; uncle(Lola, Bugs), !.
 
-list_concat1([], L2, L2).
-list_concat1([H | T1], L2, [H | T3]) :- list_concat1(T1, L2, T3).
+member(E, [E]).
+member(E, [E | _]).
+member(E, [H | T]) :- dif(E,H), member(E, T).
+
+
+sibling(X, Y) :- parent(Z, X), parent(Z, Y), dif(Y, X).
+create_sibling_list(X, Sibling_list):- 
+	setof(Y, sibling(X, Y), Sibling_list).
+
+ancestor(X, Y) :- parent(X, Y), !.
+ancestor(X, Y) :- ancestor(Z, Y), parent(X, Z).
+create_ancestor_list(X, Ancestor_list) :- 
+	setof(Z, ancestor(Z, X), Ancestor_list).
+
+aunt(Aunt, Y) :- parent(Z,Y), sibling(Aunt, Z), female(Aunt).
+create_aunt_list(X, Aunt_list) :- 
+	setof(Z, aunt(Z, X), Aunt_list).
+
+uncle(Uncle, Y):- parent(Z,Y), sibling(Uncle, Z), male(Uncle).
+create_uncle_list(X, Uncle_list) :- 
+	setof(Z, uncle(Z, X), Uncle_list).
+
+% test cases
+% forbiden_rabbits(jaime_lannister, cersei_lannister).
+% forbiden_rabbits(jon_snow, daenerys_targaryen).
+
+% forbiden_rabbits(tywin_lannister, joanna_lannister).
+% hit stack limits when only using recursive functions  
+
+
+
+% create methods that determine whether two person GOT RABBIT?
+% (Recursively using list)
+
+% add user input
+
+
+% create a tree implementation for the family
+
+
 

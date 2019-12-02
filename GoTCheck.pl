@@ -485,55 +485,23 @@ descendants(X, Descendant_of) :-
 	findall(A, descendant(X, A), Descendant_of).
 
 
-%____________________________________________________________
-% ARYAS LIST 
 
-on_list(the_hound).
-on_list(meryn_trant).
-on_list(cersei_lannister).
-on_list(joffery_lannister).
-on_list(ilyn_payne).
-on_list(polliver).
-on_list(the_mountain).
-on_list(rorge).
-on_list(walder_frey).
-on_list(tywin_lannister).
-on_list(melisandre).
-on_list(beric_dondarrion).
-on_list(thoros_of_myr).
+% something extra
 
-still_kicking(X) :-
-	on_list(X), 
-	status(X, alive).
+% create methods that determine whether two person GOT RABBIT?
+% (Recursively using list)
 
-already_dead(X) :-
-	on_list(X),
-	status(X, dead).
-
-not_dead_yet(Not_dead) :-
-	findall(X, still_kicking(X), Not_dead).
-
-ticked_off(Done) :-
-	findall(X, already_dead(X), Done).
-
-aryas_list :-
-	print("ARYAS TOP SECRET LIST. KEEP OUT."), nl,
-	findall(X, on_list(X), MainList),
-	ticked_off(List),
-	format("Done: ~w", [List]), nl,
-	not_dead_yet(AnotherList),
-	format("Still to go: ~w", [AnotherList]), nl,
-	length(AnotherList, LCompletedList),							% Find length of list and return it as LMainList.
-	length(MainList, LMainList),
-	Percent is ((LMainList - LCompletedList) / LMainList) * 100,	% Maths operators.
-	Percentage is round(Percent),									% Round to the nearest integer.
-	format("Percentage complete: ~w%", [Percentage]), nl.
+% create a tree implementation for the family
+% add user input
+% some sort of natural language processing
 
 
-%____________________________________________________________
-% RIGHTFUL HEIR
 
-rightful_heir(X) :-								% Inarguable, faultess logic.
-	parent(robert_baratheon, X),
-	status(X, alive).
 
+
+
+
+
+% praticing 
+check_alive:-
+	write("whom to check on?").
