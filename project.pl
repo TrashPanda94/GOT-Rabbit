@@ -212,13 +212,8 @@ female(alerie_hightower).
 %  setof(+Template, +Goal, -Set) binds Set to the list of all instances of 
 %  Template satisfying the goal Goal.
 
-check_both :-
-	write("Enter the name of the first character: "),nl,
-	read(First_name),nl,
-	write("Enter the name of the second character: "),nl,
-	read(Second_name), nl,
-	write("Forbiden Rabbits? ").
-	forbiden_rabbits(First_name, Second_name).
+
+
 
 
 
@@ -258,12 +253,18 @@ uncle(Uncle, Y):- parent(Z,Y), sibling(Uncle, Z), male(Uncle).
 create_uncle_list(X, Uncle_list) :- 
 	setof(Z, uncle(Z, X), Uncle_list).
 
+find_parents(C,M,F):-
+ 	parent(M, C),female(M),  parent(F,C), male(F) .
+
+ output(C):-
+ 	find_parents(C,X,Y), forbiden_rabbits(X,Y), !.
+
 % test cases
 % forbiden_rabbits(jaime_lannister, cersei_lannister).
 % forbiden_rabbits(jon_snow, daenerys_targaryen).
 
 % forbiden_rabbits(tywin_lannister, joanna_lannister).
-% hit stack limits when only using recursive functions  
+% hit stack limits when only using recursive functions.
 
 
 
@@ -273,7 +274,24 @@ create_uncle_list(X, Uncle_list) :-
 % add user input
 
 
-% create a tree implementation for the family
 
+check_both :-
+	write("Enter the name of the first character: "),
+	nl,
+	read(First_name),
+	nl,
+	write("Enter the name of the second character: "),
+	nl,
+	read(Second_name), nl,
+	write("Forbiden Rabbits? ").
+	forbiden_rabbits(First_name, Second_name).
+
+high_risk :-
+ 	write("Enter the name of the person of interest: "), 
+ 	nl,
+ 	read(Child),
+ 	nl,
+ 	write("His or her parents are forbiden rabbits: "),
+ 	output(Child).
 
 
